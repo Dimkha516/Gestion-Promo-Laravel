@@ -1,0 +1,165 @@
+
+----- REVOIR LA LIGNE  Passport::routes(); DANS AuthServiceProvider
+----- VÉRIFIER SI LE MOT DE PASSE EST DÉCRYPTER AU LOGIN
+
+
+---- MODIFICATION PROCESSUS CREATION UTILISATEUR APPRENANT:
+ECRIRE SUR LES TABLES USERS DES DEUX BD ET LA TABLE APPRENANT DE FIREBASE
+
+--- APRÈS AVOIR IMPLÉMENTER LES TRAITEMENTS SUR LES PROMOS, REVENIR SUR LA SUPPRESION DE référentiels
+    POUR EMPÊCHER LA SUPPRESION D'UN RÉFÉRENTIEL DE LA PROMO ENCOURS
+
+
+
+
+
+Nous revenir sur cette fonctionnalité plus tard.
+Maintenant que nous avons terminés avec les utilisateurs, nous allons nous attaquer maintenant à la gestion de Promotion de l'école. Une promotion représente un ensemble de données regroupées et liées entre elles à savoir: des apprenants et des référentiels. Pour ne pas avoir des soucis de dépendance nous allons y aller étape par étape.
+D'abord nous allons nous intéresse aux apprenants et référentiels dont voici leur structures:
+
+- REFERENTIELS:
+- codeReferentiel(unique)
+- libelléReferentiel(unique)
+- StatutReferentiel ==> Actif, Inactif,Archiver
+- photo
+- Description:(exemple)
+        infos referentiel 1
+            Competence1: (nom, description, duree acquisition, description, type, modules)
+              module: (nom, description, duree acquisition, description)
+                infos modules
+              Competence2:
+                 .....
+
+- APPRENANTS: c'est un utilisateur comme les autres mais avec 
+même temps un profil apprenant qui sera une table et collection pour firebase avec la structure suivante:
+
+- Nom du tuteur
+- contact du tuteur
+- photocopie CNI (file)
+- dimplôme(file)
+- visite medicale(file)
+-extrait naissance(file)
+- casier judiciaire(file)
+
+- promo(de la collection promos)
+- referentiel(de la collection referentiels)
+       moyenne
+        appreciation
+        notes[]
+
+- presences:
+     janvier
+        jour
+           emargement
+               - entree
+               - sortie
+    fevrier
+     ....
+
+un apprenant appartient à une promo et un référentiel
+
+
+en creant un apprenant on lui associe un compte utilisateur. Dans ce cas nous allons agir sur les
+collections users et apprenants.Nous allons créer un enpoint pour faire cela en utilisant toujours
+la même architecture: FireBaseInterfaceImplement, ApprenantStoreRequest, ApprenantRepository, ApprenantService et ApprenantController.
+
+Voici le une partie de ApprenantStoreRequest avec les éléments nécessaires pour le compte utilisateur
+public function rules(): array
+    {
+        return [
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'adresse' => 'required|string|max:255',
+            'telephone' => [
+                'required',
+                'string',
+                'unique:users2,telephone',
+                'regex:/^((77|76|75|70|78)\d{3}\d{2}\d{2})|(33[8]\d{2}\d{2}\d{2})$/',
+            ],
+            'role' => 'required|in:Admin,CM,Manager,Coach,Apprenant',
+            'email' => 'required|email|max:255|unique:users2,email',
+            'password' => 'required|string|min:6',
+            'photo' => 'nullable|image|max:1024', // La photo est optionnelle
+            'statut' => 'nullable|in:actif,bloqué',
+        ];
+    }
+Tu y ajoute les éléments complémentaires pour la partie apprenant.
+Après validation, les éléments pour le compte user de l'apprenant seront enregistrés dans la collection users
+et ceux de l'apprenant dans la collection apprenant. Nous enregistrons pas en local.
+
+
+
+[{ "nom": "Programmation Back-End", "description": "Compétence en Back-End", "duree_acquisition": 300,
+"type": "Back-end", "modules": [{ "nom": "Node.js", "description": "Introduction à Node.js",
+"duree_acquisition": 100 }] }]
+
+
+
+{
+    "action": "add_competence",
+    "competence": {
+        "nom": "Développement Frontend",
+        "description": "Apprentissage des technologies frontend",
+        "dureeAcquisition": "4 mois",
+        "modules": [
+            {
+                "nom": "HTML et CSS",
+                "description": "Création de pages web",
+                "dureeAcquisition": "1 mois"
+            },
+            {
+                "nom": "JavaScript",
+                "description": "Programmation côté client",
+                "dureeAcquisition": "3 mois"
+            }
+        ]
+    }
+}
+
+{
+    "action": "add_modules",
+    "competence_nom": "Développement Frontend",
+    "modules": [
+        {
+            "nom": "React",
+            "description": "Framework JavaScript",
+            "dureeAcquisition": "2 mois"
+        }
+    ]
+}
+
+{
+    "action": "remove_module",
+    "competence_nom": "Développement Frontend",
+    "module_nom": "HTML et CSS"
+}
+
+A présent attaquons la partie apprenant. Mais d'abord il nous faut initialiser
+la collection promos car lorsque l'on inscrira un apprenant, il faudra l'associé à
+une promotion. Voici les caractéristiques d'une promotion:
+
+Une promos est caracterise par son libelle, date debut,date de fin,duree, son etat(Actif,Cloturer, Inactif)
+eventuellement ses referentiels[], ses apprenants[] , photo de couverture
+
+Tous les enregistrements se font toujours dans Firebase.
+Voici les critères de validité pour créer une promo
+- libelle est unique (à vérifier dans firebase)
+- date debut et date de fin sont obligatoire. dans ce cas la duree est calculee en mois
+- date debut et duree obligatoire. dans ce cas la date de fin  est calculee
+- En creant une promotion, on peut lui affecter des referentiels actifs(facultatif)
+- A la creation de la promotion l'etat Inactif
+
+Nous allons utilisé le même procédé.
+J'ai crér un PromoStoreRequest pour la validation des données.
+J'ai créer un PromoRepository, PromoService et PromoController.
+Nous continuearons aussi l'utilisation de FireBaseInterfaceImplement.
+
+Tu utilise tous ces fichiers que j'ai nommées et créé pour implémenter la fonctionnalité de création promo.
+Pour rappel on enregitre sur Firebase et toutes les vérifications se font à partir de notre base de données RealTime Database
+
+
+
+
+On poursuit. Il est temps maintenant de nous attaquer à la partie apprenant.
+Un apprenant a toutes les informations d’un user + les informations sur la photo de couverture,son referentiel(d'une promo).
+Il a aussi ses informations qui sont ses presences[]

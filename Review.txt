@@ -1,0 +1,6 @@
+
+-----------------UPDATE UTILISATEUR => Patch http://localhost:3000/api/v1/users/{id}
+
+-----------------FILTRE MODULE ET COMPÉTENCES => GET http://localhost:3000/api/v1/referentiels/{id}
+
+
