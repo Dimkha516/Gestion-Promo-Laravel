@@ -1,12 +1,6 @@
 # Utiliser une image officielle de PHP avec FPM (FastCGI Process Manager)
 FROM php:8.1-fpm
 
-# Arguments pour MySQL
-ARG MYSQL_HOST
-ARG MYSQL_DATABASE
-ARG MYSQL_USER
-ARG MYSQL_PASSWORD
-
 # Installer les dépendances du système
 RUN apt-get update && apt-get install -y \
     libzip-dev \
@@ -17,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql zip
 
@@ -35,11 +30,17 @@ RUN composer install --optimize-autoloader --no-dev
 # Donner les permissions adéquates aux répertoires de stockage et de cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Copier le fichier d'environnement (si nécessaire, selon la configuration)
-# COPY .env /var/www/.env
+# Copier le fichier de configuration Nginx
+COPY nginx/default.conf /etc/nginx/sites-available/default
+# RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Exposer le port 9000 pour PHP-FPM
+# Exposer les ports pour PHP-FPM et Nginx
 EXPOSE 8089
+EXPOSE 9000
 
-# Démarrer PHP-FPM
-CMD ["php-fpm"]
+# Copier et exécuter le script de démarrage
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+# Lancer le script de démarrage quand le conteneur démarre
+CMD ["sh", "/usr/local/bin/start.sh"]

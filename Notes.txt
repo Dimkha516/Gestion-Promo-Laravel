@@ -163,3 +163,5 @@ Pour rappel on enregitre sur Firebase et toutes les vérifications se font à pa
 On poursuit. Il est temps maintenant de nous attaquer à la partie apprenant.
 Un apprenant a toutes les informations d’un user + les informations sur la photo de couverture,son referentiel(d'une promo).
 Il a aussi ses informations qui sont ses presences[]
+
+sudo docker-compose build
