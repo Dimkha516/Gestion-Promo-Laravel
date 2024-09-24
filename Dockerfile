@@ -32,11 +32,11 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Copier le fichier de configuration Nginx
 COPY nginx/default.conf /etc/nginx/sites-available/default
-# RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Exposer les ports pour PHP-FPM et Nginx
 EXPOSE 8089
-EXPOSE 9000
+# EXPOSE 9000
 
 # Copier et exécuter le script de démarrage
 COPY start.sh /usr/local/bin/start.sh
