@@ -39,7 +39,7 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 # COPY .env /var/www/.env
 
 # Exposer le port 9000 pour PHP-FPM
-EXPOSE 9000
+EXPOSE 8089
 
 # Démarrer PHP-FPM
 CMD ["php-fpm"]
