@@ -36,7 +36,7 @@ RUN composer install --optimize-autoloader --no-dev
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Copier le fichier d'environnement (si nécessaire, selon la configuration)
-COPY .env /var/www/.env
+# COPY .env /var/www/.env
 
 # Exposer le port 9000 pour PHP-FPM
 EXPOSE 9000
