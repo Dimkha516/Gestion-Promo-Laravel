@@ -26,6 +26,8 @@ use Laravel\Passport\Passport;
 // });
 
 
+
+
 Route::prefix('v1')->group(function () {
 
     //----------------------------------------AUTHENTIFICATIONS:

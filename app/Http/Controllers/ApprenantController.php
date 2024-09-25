@@ -23,6 +23,14 @@ class ApprenantController extends Controller
         $this->apprenantRepository = $apprenantRepository;
     }
 
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/apprenants",
+     *     summary="Inscrire un apprenant",
+     *     @OA\Response(response="201", description="Inscription apprenant")
+     * )
+     */
     public function store(ApprenantStoreRequest $request)
     {
 
@@ -51,10 +59,15 @@ class ApprenantController extends Controller
         }
     }
 
+
     // Méthode pour importer les apprenants depuis un fichier Excel
-
-
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/import",
+     *     summary="Inscrire plusieurs apprenants par import fichier excel",
+     *     @OA\Response(response="201", description="Inscription en masse")
+     * )
+     */
     public function importApprenants(Request $request)
     {
         $request->validate([
@@ -64,21 +77,22 @@ class ApprenantController extends Controller
         // Appel du service pour traiter l'importation
         $result = $this->apprenantService->importApprenants($request->file('file'));
 
-
-        if ($result['success']) {
+        if ($result) {
             return response()->json(['message' => 'Importation réussie'], 200);
         } else {
-            // En cas d'erreurs de validation
-            return response()->json([
-                'message' => 'Échec de l\'importation pour l\'apprenant : ' . $result['email'],
-                'errors' => $result['errors']
-            ], 422);
+            return response()->json(['message' => 'Échec de l\'importation'], 500);
         }
-        // if ($result) { 
+
+        // if ($result['success']) {
         //     return response()->json(['message' => 'Importation réussie'], 200);
         // } else {
-        //     return response()->json(['message' => 'Échec de l\'importation'], 500);
+        //     // En cas d'erreurs de validation
+        //     return response()->json([
+        //         'message' => 'Échec de l\'importation pour l\'apprenant : ' . $result['email'],
+        //         'errors' => $result['errors']
+        //     ], 422);
         // }
+
     }
 
 

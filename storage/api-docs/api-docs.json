@@ -1,0 +1,176 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentation API Gestion-Promos",
+        "description": "Documentation for the API",
+        "contact": {
+            "email": "dimkha516@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://gestion-promo-laravel.onrender.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/apprenants": {
+            "post": {
+                "summary": "Inscrire un apprenant",
+                "operationId": "ac6ccaa3362815fc5ed000249fc8def7",
+                "responses": {
+                    "201": {
+                        "description": "Inscription apprenant"
+                    }
+                }
+            }
+        },
+        "/api/v1/import": {
+            "post": {
+                "summary": "Inscrire plusieurs apprenants par import fichier excel",
+                "operationId": "f772a1f0fc9532ebc3f9720bd26b2977",
+                "responses": {
+                    "201": {
+                        "description": "Inscription en masse"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "summary": "Se connecter",
+                "operationId": "5db09a35f965c6ca7529ed3c3cae8e21",
+                "responses": {
+                    "200": {
+                        "description": "Login réussie !"
+                    }
+                }
+            }
+        },
+        "/api/v1/promotions": {
+            "get": {
+                "summary": "Lister toutes les promos",
+                "operationId": "fc9fb2a4c211f418e120e9aa8ffaa445",
+                "responses": {
+                    "200": {
+                        "description": "Liste des promos"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Créer une nouvelle promo",
+                "operationId": "397c326137b04e19cfe299acace162f4",
+                "responses": {
+                    "201": {
+                        "description": "Création Promo"
+                    }
+                }
+            }
+        },
+        "/api/v1/promotions/{id}/referentiels": {
+            "post": {
+                "summary": "Ajouter un référentiel actif à une promo",
+                "operationId": "1273e4ffb072bf086e79a609ce877475",
+                "responses": {
+                    "201": {
+                        "description": "Ajout Référentiel promo"
+                    }
+                }
+            }
+        },
+        "/api/V1/referentiels": {
+            "get": {
+                "summary": "Liste tous les référentiels",
+                "operationId": "d5a290c21ba413965366bca91d12efc1",
+                "responses": {
+                    "200": {
+                        "description": "Liste des référentiels"
+                    }
+                }
+            }
+        },
+        "/api/v1/archive/referentiel": {
+            "get": {
+                "summary": "Liste tous les référentiels archivés",
+                "operationId": "42cd1a0669b89228d5d65e4c5117f166",
+                "responses": {
+                    "200": {
+                        "description": "Liste des référentiels archivés"
+                    }
+                }
+            }
+        },
+        "/api/v1/referentiel": {
+            "post": {
+                "summary": "Créer un nouveau référentiel",
+                "operationId": "a2e66c4a00d067620ded227113776cb2",
+                "responses": {
+                    "200": {
+                        "description": "Création référentiel"
+                    }
+                }
+            }
+        },
+        "/api/v1/referentiels/{id}": {
+            "get": {
+                "summary": "Filtre compétences ou modules d'un référentiel",
+                "operationId": "8b9335ae9c6940c80524fef74b1d0502",
+                "responses": {
+                    "200": {
+                        "description": "Filtre référentiels par compétences/modules"
+                    }
+                }
+            }
+        },
+        "/api/v1/referentiel/{id}": {
+            "delete": {
+                "summary": "Archiver référentiel",
+                "operationId": "34ca64bf3d6edb6b3df095ca84dc400e",
+                "responses": {
+                    "200": {
+                        "description": "Archivage référentiel"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Ajout compétences et module pour référentiel",
+                "operationId": "3622f40948bb7426de8129f699da09dc",
+                "responses": {
+                    "200": {
+                        "description": "modifier référentiel par ajout"
+                    }
+                }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "summary": "Liste tous les utilisateurs",
+                "operationId": "120810dab5e21eda68251dec5f44151b",
+                "responses": {
+                    "200": {
+                        "description": "Liste des utilisateurs"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Créer un nouvel utilisateur",
+                "operationId": "9b4e96f4baac2d6653c9efc669a6cebd",
+                "responses": {
+                    "201": {
+                        "description": "Créaation utilisateurs"
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "summary": "Mettre à jour un utilisateur",
+                "operationId": "0d522613182a87dce02854d3f118efb9",
+                "responses": {
+                    "200": {
+                        "description": "Mise à jour utilisateur"
+                    }
+                }
+            }
+        }
+    }
+}

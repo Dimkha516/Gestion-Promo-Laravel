@@ -20,6 +20,13 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/users",
+     *     summary="Liste tous les utilisateurs",
+     *     @OA\Response(response="200", description="Liste des utilisateurs")
+     * )
+     */
     public function store(StoreUserRequest $request)
     {
 
@@ -38,6 +45,13 @@ class UserController extends Controller
         return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/users",
+     *     summary="Créer un nouvel utilisateur",
+     *     @OA\Response(response="201", description="Créaation utilisateurs")
+     * )
+     */
     public function index(Request $request)
     {
 
@@ -58,8 +72,16 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/users/{id}",
+     *     summary="Mettre à jour un utilisateur",
+     *     @OA\Response(response="200", description="Mise à jour utilisateur")
+     * )
+     */
     public function update(UpdateUserRequest $request, $id)
-    {   
+    {
 
         if (!auth()->check()) {
             return response()->json(['message' => 'Unauthenticated.'], 401);
@@ -67,7 +89,7 @@ class UserController extends Controller
 
         // Vérifie si l'utilisateur connecté a l'un des rôles requis
         $currentUser = auth()->user();
-        
+
         if (!in_array($currentUser->role, ['Admin', 'CM', 'Manager'])) {
             return response()->json(['message' => 'Accès refusé.'], 403);
         }

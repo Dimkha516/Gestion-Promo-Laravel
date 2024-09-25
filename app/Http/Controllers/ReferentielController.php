@@ -16,6 +16,13 @@ class ReferentielController extends Controller
     }
 
     // Endpoint pour lister les référentiels avec filtre par statut
+    /**
+     * @OA\Get(
+     *     path="/api/V1/referentiels",
+     *     summary="Liste tous les référentiels",
+     *     @OA\Response(response="200", description="Liste des référentiels")
+     * )
+     */
     public function index(Request $request)
     {
         if (!auth()->check()) {
@@ -36,6 +43,14 @@ class ReferentielController extends Controller
         return response()->json($referentiels);
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/archive/referentiel",
+     *     summary="Liste tous les référentiels archivés",
+     *     @OA\Response(response="200", description="Liste des référentiels archivés")
+     * )
+     */
     public function archivedList()
     {
         if (!auth()->check()) {
@@ -55,6 +70,13 @@ class ReferentielController extends Controller
 
 
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/referentiel",
+     *     summary="Créer un nouveau référentiel",
+     *     @OA\Response(response="200", description="Création référentiel")
+     * )
+     */
     public function store(ReferentielStoreRequest $request)
     {
         if (!auth()->check()) {
@@ -83,6 +105,7 @@ class ReferentielController extends Controller
 
     }
 
+
     public function show($id)
     {
         return response()->json($this->referentielService->findReferentiel($id));
@@ -100,6 +123,13 @@ class ReferentielController extends Controller
 
 
     // Endpoint pour filtrer les compétences ou les modules d'un référentiel
+    /**
+     * @OA\Get(
+     *     path="/api/v1/referentiels/{id}",
+     *     summary="Filtre compétences ou modules d'un référentiel",
+     *     @OA\Response(response="200", description="Filtre référentiels par compétences/modules")
+     * )
+     */
     public function filterByCompetenceOrModule(Request $request, $uid)
     {
         if (!auth()->check()) {
@@ -129,6 +159,13 @@ class ReferentielController extends Controller
     }
 
 
+    /**
+     * @OA\Patch(
+     *     path="/api/v1/referentiel/{id}",
+     *     summary="Ajout compétences et module pour référentiel",
+     *     @OA\Response(response="200", description="modifier référentiel par ajout")
+     * )
+     */
     public function update(Request $request, $id)
     {
         if (!auth()->check()) {
@@ -171,6 +208,13 @@ class ReferentielController extends Controller
 
     // SUPPRESSION SOFT DANS LA BASE DE DONNÉES FIREBASE:
 
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/referentiel/{id}",
+     *     summary="Archiver référentiel",
+     *     @OA\Response(response="200", description="Archivage référentiel")
+     * )
+     */
     public function deleteReferentiel($id)
     {
         // Vérifie si l'utilisateur est authentifié et a les droits requis

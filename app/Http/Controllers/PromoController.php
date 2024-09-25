@@ -16,6 +16,13 @@ class PromoController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/promotions",
+     *     summary="Lister toutes les promos",
+     *     @OA\Response(response="200", description="Liste des promos")
+     * )
+     */
     public function index(Request $request)
     {
         if (!auth()->check()) {
@@ -36,7 +43,13 @@ class PromoController extends Controller
 
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/promotions",
+     *     summary="Créer une nouvelle promo",
+     *     @OA\Response(response="201", description="Création Promo")
+     * )
+     */
     public function store(PromoStoreRequest $request)
     {
         if (!auth()->check()) {
@@ -66,6 +79,13 @@ class PromoController extends Controller
 
 
     // Endpoint pour ajouter un référentiel à une promo
+    /**
+     * @OA\Post(
+     *     path="/api/v1/promotions/{id}/referentiels",
+     *     summary="Ajouter un référentiel actif à une promo",
+     *     @OA\Response(response="201", description="Ajout Référentiel promo")
+     * )
+     */
     public function addReferentielToPromo(Request $request, $promoUid)
     {
         $referentielUid = $request->input('referentiel_uid');

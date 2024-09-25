@@ -13,6 +13,13 @@ class AuthController extends Controller{
         $this->authService = $authService;
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/login",
+     *     summary="Se connecter",
+     *     @OA\Response(response="200", description="Login réussie !")
+     * )
+     */
     public function login(Request $request)
     {
         return $this->authService->login($request);
