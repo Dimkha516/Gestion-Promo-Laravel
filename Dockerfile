@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip \
-    && docker-php-ext-install pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql zip
+    # && docker-php-ext-install pdo pdo_mysql
 
 
 # Installer Composer
