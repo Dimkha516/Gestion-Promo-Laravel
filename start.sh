@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Démarrer PHP-FPM
-php-fpm
+php-fpm -D
 
 # Démarrer Nginx
 nginx -g 'daemon off;'
