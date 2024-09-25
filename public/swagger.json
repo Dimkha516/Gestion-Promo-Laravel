@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://gestion-promo-laravel.onrender.com/index.html",
+            "url": "https://gestion-promo-laravel.onrender.com",
             "description": "Serveur Local"
         }
     ],
