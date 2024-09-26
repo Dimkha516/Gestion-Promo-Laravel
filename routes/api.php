@@ -40,8 +40,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('users')->group(function () {
 
         //----------------------------LISTER TOUS LES USERS
-        Route::middleware('auth:api')->get("/", [UserController::class, 'index']);
-
+        // Route::middleware('auth:api')->get("/", [UserController::class, 'index']);
+        Route::get("/", [UserController::class, 'index']);
         //----------------------------AJOUTER UN USER
         // Route::middleware('auth:api')->post("/", [UserController::class, 'store']);
         Route::middleware('auth:api')->group(function () {

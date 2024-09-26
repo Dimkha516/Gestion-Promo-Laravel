@@ -56,10 +56,10 @@ class UserController extends Controller
     {
 
         // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        $currentUser = auth()->user();
-        if (!in_array($currentUser->role, ['Admin', 'CM', 'Manager'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+        // $currentUser = auth()->user();
+        // if (!in_array($currentUser->role, ['Admin', 'CM', 'Manager'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
 
 
         // Récupérer le rôle à filtrer (optionnel)
