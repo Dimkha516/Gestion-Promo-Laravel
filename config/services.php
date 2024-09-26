@@ -35,8 +35,8 @@ return [
         'project_id' => env('FIREBASE_PROJECT_ID'), // Ajoutez cette ligne
         'client_email' => env('FIREBASE_CLIENT_EMAIL'),
         'private_key' => str_replace('\\n', "\n", env('FIREBASE_PRIVATE_KEY')),
-        'credentials' => base_path(env('FIREBASE_CREDENTIALS')),
-        // 'credentials' => json_decode(env('FIREBASE_CREDENTIALS', '{}'), true),
+        // 'credentials' => base_path(env('FIREBASE_CREDENTIALS')),
+        'credentials' => json_decode(env('FIREBASE_CREDENTIALS', '{}'), true),
         'database_url' => env('FIREBASE_DATABASE_URL'),
     ],
 
