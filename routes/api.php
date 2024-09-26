@@ -40,8 +40,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('users')->group(function () {
 
         //----------------------------LISTER TOUS LES USERS
-        // Route::middleware('auth:api')->get("/", [UserController::class, 'index']);
-        Route::get("/", [UserController::class, 'index']);
+        Route::middleware('auth:api')->get("/", [UserController::class, 'index']);
         //----------------------------AJOUTER UN USER
         // Route::middleware('auth:api')->post("/", [UserController::class, 'store']);
         Route::middleware('auth:api')->group(function () {
@@ -62,8 +61,8 @@ Route::prefix('v1')->group(function () {
         Route::middleware('auth:api')->post("/", [ReferentielController::class, 'store']);
 
         //------------LISTER LES RÉFÉRENTIELS AVEC POSSIBILITÉ DE FILTRE:
-        Route::middleware('auth:api')->get('/', [ReferentielController::class, 'index']);
-
+        // Route::middleware('auth:api')->get('/', [ReferentielController::class, 'index']);
+        Route::get("/", [ReferentielController::class, 'index']);
 
         // FILTRER SUR UN RÉFÉRENTIEL PAR COMPÉTENCE OU MODULE:
         Route::middleware('auth:api')->get('/{id}', [ReferentielController::class, 'filterByCompetenceOrModule']);

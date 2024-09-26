@@ -4,3 +4,4 @@
 -----------------FILTRE MODULE ET COMPÉTENCES => GET http://localhost:3000/api/v1/referentiels/{id}
 
 
+------------------- REMETTRE LES MIDDLEWARES D'AUTHENTIFICATION APRÈS DEBUGGAGE---------------

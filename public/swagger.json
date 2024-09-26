@@ -32,6 +32,28 @@
                     }
                 }
             }
+        },
+
+        "/api/v1/referentiels": {
+            "get": {
+                "tags": ["referentiels"],
+                "summary": "Lister tous les référentiels actifs",
+                "description": "Recupére la liste des référentiels",
+                "responses": {
+                    "200": {
+                        "description": "Liste des référentiels",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

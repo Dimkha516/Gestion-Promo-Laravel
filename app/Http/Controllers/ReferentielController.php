@@ -25,16 +25,18 @@ class ReferentielController extends Controller
      */
     public function index(Request $request)
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+        // if (!auth()->check()) {
+        //     return response()->json(['message' => 'Unauthenticated.'], 401);
+        // }
 
-        // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        $currentUser = auth()->user();
+        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        // $currentUser = auth()->user();
 
-        if (!in_array($currentUser->role, ['Admin'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+        // if (!in_array($currentUser->role, ['Admin'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
+
+        
         $statut = $request->query('statut'); // Filtrer par statut si fourni
         $referentiels = $this->referentielService->listReferentiels($statut);
 
