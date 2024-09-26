@@ -5,3 +5,5 @@
 
 
 ------------------- REMETTRE LES MIDDLEWARES D'AUTHENTIFICATION APRÈS DEBUGGAGE---------------
+
+// "url": "https://gestion-promo-laravel.onrender.com",
