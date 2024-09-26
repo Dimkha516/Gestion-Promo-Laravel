@@ -17,6 +17,7 @@ class AuthController extends Controller{
      * @OA\Post(
      *     path="/api/v1/auth/login",
      *     summary="Se connecter",
+     *      tags={"Authentifaction"},
      *     @OA\Response(response="200", description="Login réussie !")
      * )
      */

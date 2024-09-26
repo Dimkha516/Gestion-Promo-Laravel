@@ -15,6 +15,9 @@
     "paths": {
         "/api/v1/apprenants": {
             "post": {
+                "tags": [
+                    "apprenants"
+                ],
                 "summary": "Inscrire un apprenant",
                 "operationId": "ac6ccaa3362815fc5ed000249fc8def7",
                 "responses": {
@@ -26,6 +29,9 @@
         },
         "/api/v1/import": {
             "post": {
+                "tags": [
+                    "apprenants"
+                ],
                 "summary": "Inscrire plusieurs apprenants par import fichier excel",
                 "operationId": "f772a1f0fc9532ebc3f9720bd26b2977",
                 "responses": {
@@ -37,6 +43,9 @@
         },
         "/api/v1/auth/login": {
             "post": {
+                "tags": [
+                    "Authentifaction"
+                ],
                 "summary": "Se connecter",
                 "operationId": "5db09a35f965c6ca7529ed3c3cae8e21",
                 "responses": {
@@ -48,6 +57,9 @@
         },
         "/api/v1/promotions": {
             "get": {
+                "tags": [
+                    "promos"
+                ],
                 "summary": "Lister toutes les promos",
                 "operationId": "fc9fb2a4c211f418e120e9aa8ffaa445",
                 "responses": {
@@ -57,6 +69,9 @@
                 }
             },
             "post": {
+                "tags": [
+                    "promos"
+                ],
                 "summary": "Créer une nouvelle promo",
                 "operationId": "397c326137b04e19cfe299acace162f4",
                 "responses": {
@@ -68,6 +83,9 @@
         },
         "/api/v1/promotions/{id}/referentiels": {
             "post": {
+                "tags": [
+                    "promos"
+                ],
                 "summary": "Ajouter un référentiel actif à une promo",
                 "operationId": "1273e4ffb072bf086e79a609ce877475",
                 "responses": {
@@ -77,19 +95,39 @@
                 }
             }
         },
-        "/api/V1/referentiels": {
+        "/api/v1/referentiels": {
             "get": {
-                "summary": "Liste tous les référentiels",
-                "operationId": "d5a290c21ba413965366bca91d12efc1",
+                "tags": [
+                    "referentiels"
+                ],
+                "summary": "Lister tous les référentiels actifs",
+                "description": "Recupére la liste des référentiels",
+                "operationId": "d7d62c0baa995993fbfb3f30f7a1e0cc",
                 "responses": {
                     "200": {
-                        "description": "Liste des référentiels"
+                        "description": "Liste des référentiels",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
         },
         "/api/v1/archive/referentiel": {
             "get": {
+                "tags": [
+                    "referentiels"
+                ],
                 "summary": "Liste tous les référentiels archivés",
                 "operationId": "42cd1a0669b89228d5d65e4c5117f166",
                 "responses": {
@@ -101,6 +139,9 @@
         },
         "/api/v1/referentiel": {
             "post": {
+                "tags": [
+                    "referentiels"
+                ],
                 "summary": "Créer un nouveau référentiel",
                 "operationId": "a2e66c4a00d067620ded227113776cb2",
                 "responses": {
@@ -112,6 +153,9 @@
         },
         "/api/v1/referentiels/{id}": {
             "get": {
+                "tags": [
+                    "referentiels"
+                ],
                 "summary": "Filtre compétences ou modules d'un référentiel",
                 "operationId": "8b9335ae9c6940c80524fef74b1d0502",
                 "responses": {
@@ -123,6 +167,9 @@
         },
         "/api/v1/referentiel/{id}": {
             "delete": {
+                "tags": [
+                    "referentiels"
+                ],
                 "summary": "Archiver référentiel",
                 "operationId": "34ca64bf3d6edb6b3df095ca84dc400e",
                 "responses": {
@@ -132,6 +179,9 @@
                 }
             },
             "patch": {
+                "tags": [
+                    "referentiels"
+                ],
                 "summary": "Ajout compétences et module pour référentiel",
                 "operationId": "3622f40948bb7426de8129f699da09dc",
                 "responses": {
@@ -143,6 +193,9 @@
         },
         "/api/v1/users": {
             "get": {
+                "tags": [
+                    "users"
+                ],
                 "summary": "Liste tous les utilisateurs",
                 "operationId": "120810dab5e21eda68251dec5f44151b",
                 "responses": {
@@ -152,6 +205,9 @@
                 }
             },
             "post": {
+                "tags": [
+                    "users"
+                ],
                 "summary": "Créer un nouvel utilisateur",
                 "operationId": "9b4e96f4baac2d6653c9efc669a6cebd",
                 "responses": {
@@ -163,6 +219,9 @@
         },
         "/api/v1/users/{id}": {
             "get": {
+                "tags": [
+                    "users"
+                ],
                 "summary": "Mettre à jour un utilisateur",
                 "operationId": "0d522613182a87dce02854d3f118efb9",
                 "responses": {
@@ -172,5 +231,27 @@
                 }
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "apprenants",
+            "description": "apprenants"
+        },
+        {
+            "name": "Authentifaction",
+            "description": "Authentifaction"
+        },
+        {
+            "name": "promos",
+            "description": "promos"
+        },
+        {
+            "name": "referentiels",
+            "description": "referentiels"
+        },
+        {
+            "name": "users",
+            "description": "users"
+        }
+    ]
 }

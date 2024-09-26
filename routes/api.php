@@ -30,6 +30,8 @@ use Laravel\Passport\Passport;
 
 Route::prefix('v1')->group(function () {
 
+    Route::get('api/documentation', '\L5Swagger\Http\Controllers\SwaggerController@api')->name('l5swagger.api');
+
     //----------------------------------------AUTHENTIFICATIONS:
     Route::prefix('auth')->group(function () {
         Route::post('/login', [AuthController::class, 'login']);
@@ -41,11 +43,12 @@ Route::prefix('v1')->group(function () {
 
         //----------------------------LISTER TOUS LES USERS
         Route::middleware('auth:api')->get("/", [UserController::class, 'index']);
+
+
         //----------------------------AJOUTER UN USER
-        // Route::middleware('auth:api')->post("/", [UserController::class, 'store']);
-        Route::middleware('auth:api')->group(function () {
-            Route::post("/", [UserController::class, 'store']);
-        });
+
+        Route::middleware('auth:api')->post("/", [UserController::class, 'store']);
+
 
         //----------------------------METTRE À JOUR UN UTILISATEUR
         Route::middleware('auth:api')->patch("/{id}", [UserController::class, 'update']);
@@ -95,7 +98,7 @@ Route::prefix('v1')->group(function () {
         //     return response()->json(['message' => 'Accès refusé.'], 403);
         // }
         Route::middleware('auth:api')->post('/', [ApprenantController::class, 'store']);
-        
+
         Route::post('/import', [ApprenantController::class, 'importApprenants']);
     });
 
@@ -103,13 +106,13 @@ Route::prefix('v1')->group(function () {
     //-----------------------------------------------------PROMOS
 
     Route::prefix('promotions')->group(function () {
-        
+
         Route::middleware('auth:api')->get('/', [PromoController::class, 'index']);
-        
+
         Route::middleware('auth:api')->post('/', [PromoController::class, 'store']);
-        
+
         Route::middleware('auth:api')->post('/{id}/referentiels', [PromoController::class, 'addReferentielToPromo']);
-    
+
     });
 
 });

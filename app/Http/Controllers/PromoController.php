@@ -20,6 +20,7 @@ class PromoController extends Controller
      * @OA\Get(
      *     path="/api/v1/promotions",
      *     summary="Lister toutes les promos",
+     *      tags={"promos"},
      *     @OA\Response(response="200", description="Liste des promos")
      * )
      */
@@ -46,6 +47,7 @@ class PromoController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/promotions",
+     *      tags={"promos"},
      *     summary="Créer une nouvelle promo",
      *     @OA\Response(response="201", description="Création Promo")
      * )
@@ -83,6 +85,7 @@ class PromoController extends Controller
      * @OA\Post(
      *     path="/api/v1/promotions/{id}/referentiels",
      *     summary="Ajouter un référentiel actif à une promo",
+     *      tags={"promos"},
      *     @OA\Response(response="201", description="Ajout Référentiel promo")
      * )
      */

@@ -28,6 +28,7 @@ class ApprenantController extends Controller
      * @OA\Post(
      *     path="/api/v1/apprenants",
      *     summary="Inscrire un apprenant",
+     *      tags={"apprenants"},
      *     @OA\Response(response="201", description="Inscription apprenant")
      * )
      */
@@ -65,6 +66,7 @@ class ApprenantController extends Controller
      * @OA\Post(
      *     path="/api/v1/import",
      *     summary="Inscrire plusieurs apprenants par import fichier excel",
+     *      tags={"apprenants"},
      *     @OA\Response(response="201", description="Inscription en masse")
      * )
      */

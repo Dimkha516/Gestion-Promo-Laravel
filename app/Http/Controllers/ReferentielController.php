@@ -15,26 +15,36 @@ class ReferentielController extends Controller
         $this->referentielService = $referentielService;
     }
 
-    // Endpoint pour lister les référentiels avec filtre par statut
     /**
      * @OA\Get(
-     *     path="/api/V1/referentiels",
-     *     summary="Liste tous les référentiels",
-     *     @OA\Response(response="200", description="Liste des référentiels")
+     *     path="/api/v1/referentiels",
+     *     tags={"referentiels"},
+     *     summary="Lister tous les référentiels actifs",
+     *     description="Recupére la liste des référentiels",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des référentiels",
+     *         @OA\JsonContent()
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Non autorisé",
+     *         @OA\JsonContent()
+     *     )
      * )
      */
     public function index(Request $request)
     {
-        // if (!auth()->check()) {
-        //     return response()->json(['message' => 'Unauthenticated.'], 401);
-        // }
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
 
-        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        // $currentUser = auth()->user();
+        // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        $currentUser = auth()->user();
 
-        // if (!in_array($currentUser->role, ['Admin'])) {
-        //     return response()->json(['message' => 'Accès refusé.'], 403);
-        // }
+        if (!in_array($currentUser->role, ['Admin'])) {
+            return response()->json(['message' => 'Accès refusé.'], 403);
+        }
 
         
         $statut = $request->query('statut'); // Filtrer par statut si fourni
@@ -49,6 +59,7 @@ class ReferentielController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/archive/referentiel",
+     *      tags={"referentiels"},
      *     summary="Liste tous les référentiels archivés",
      *     @OA\Response(response="200", description="Liste des référentiels archivés")
      * )
@@ -75,6 +86,7 @@ class ReferentielController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/referentiel",
+     *      tags={"referentiels"},
      *     summary="Créer un nouveau référentiel",
      *     @OA\Response(response="200", description="Création référentiel")
      * )
@@ -128,6 +140,7 @@ class ReferentielController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/referentiels/{id}",
+     *      tags={"referentiels"},
      *     summary="Filtre compétences ou modules d'un référentiel",
      *     @OA\Response(response="200", description="Filtre référentiels par compétences/modules")
      * )
@@ -164,6 +177,7 @@ class ReferentielController extends Controller
     /**
      * @OA\Patch(
      *     path="/api/v1/referentiel/{id}",
+     *      tags={"referentiels"},
      *     summary="Ajout compétences et module pour référentiel",
      *     @OA\Response(response="200", description="modifier référentiel par ajout")
      * )
@@ -213,6 +227,7 @@ class ReferentielController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/v1/referentiel/{id}",
+     *      tags={"referentiels"},
      *     summary="Archiver référentiel",
      *     @OA\Response(response="200", description="Archivage référentiel")
      * )

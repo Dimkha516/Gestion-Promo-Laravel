@@ -27,5 +27,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // Passport::routes();
+        // Ajoutez ces lignes pour configurer CORS pour Passport
+        Passport::$ignoreCsrfToken = true;
+        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
     }
 }

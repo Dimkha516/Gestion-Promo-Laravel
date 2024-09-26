@@ -24,6 +24,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/api/v1/users",
      *     summary="Liste tous les utilisateurs",
+     *      tags={"users"},
      *     @OA\Response(response="200", description="Liste des utilisateurs")
      * )
      */
@@ -49,6 +50,7 @@ class UserController extends Controller
      * @OA\Post(
      *     path="/api/v1/users",
      *     summary="Créer un nouvel utilisateur",
+     *      tags={"users"},
      *     @OA\Response(response="201", description="Créaation utilisateurs")
      * )
      */
@@ -77,6 +79,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/api/v1/users/{id}",
      *     summary="Mettre à jour un utilisateur",
+     *      tags={"users"},
      *     @OA\Response(response="200", description="Mise à jour utilisateur")
      * )
      */
