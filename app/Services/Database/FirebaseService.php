@@ -15,7 +15,6 @@ class FirebaseService implements DatabaseServiceInterface
         $firebase = (new Factory)
             ->withServiceAccount(config('services.firebase.credentials'))
             ->withDatabaseUri(config('services.firebase.database_url'));
-
         $this->auth = $firebase->createAuth();  // Utilisation de l'authentification Firebase
         $this->database = $firebase->createDatabase();
     }

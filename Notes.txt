@@ -165,3 +165,10 @@ Un apprenant a toutes les informations d’un user + les informations sur la pho
 Il a aussi ses informations qui sont ses presences[]
 
 sudo docker-compose build
+
+commande pour builder l'image : 
+docker build -t nom_de_l'image
+
+docker run -p 80:80 -p 9000:9000 nom_de_l'image
+
+listen' /etc/nginx/nginx.conf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/
