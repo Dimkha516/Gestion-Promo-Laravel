@@ -14,12 +14,16 @@ class FirebaseInterfaceImplement implements FirebaseInterface
 
     public function __construct()
     {
-        // Initialisez votre connexion Firebase ici
-        // Initialisez votre connexion Firebase ici
-        $factory = (new Factory)
-            ->withServiceAccount(config('services.firebase.credentials'))
-            ->withDatabaseUri(env('FIREBASE_DATABASE_URL'));
+        $credentials = base64_decode(env('FIREBASE_CREDENTIALS'));
+        $tempFilePath = storage_path('app/firebase/temp_credentials.json');
+        file_put_contents($tempFilePath, $credentials);
 
+
+        // dd(base64_decode( config('services.firebase.credentials')));
+        $factory = (new Factory)
+            // ->withServiceAccount(storage_path(config('services.firebase.credentials')))
+            ->withServiceAccount($tempFilePath)
+            ->withDatabaseUri(env('FIREBASE_DATABASE_URL'));
         $this->firebase = $factory->createDatabase();
     }
 
@@ -79,27 +83,27 @@ class FirebaseInterfaceImplement implements FirebaseInterface
     }
 
     public function getFirebaseUid2($libelleReferentiel)
-{
-    try {
-        // Récupérer l'entièreté des référentiels depuis Firebase
-        $referentielSnapshot = $this->firebase->getReference('referentiels')->getSnapshot();
+    {
+        try {
+            // Récupérer l'entièreté des référentiels depuis Firebase
+            $referentielSnapshot = $this->firebase->getReference('referentiels')->getSnapshot();
 
-        // Vérifier l'existence des référentiels
-        if ($referentielSnapshot->exists()) {
-            foreach ($referentielSnapshot->getValue() as $uid => $referentielData) {
-                // Comparer une propriété unique du référentiel (ici libelleReferentiel) pour récupérer l'UID
-                if (isset($referentielData['libelleReferentiel']) && $referentielData['libelleReferentiel'] === $libelleReferentiel) {
-                    return $uid; // Retourner l'UID correspondant
+            // Vérifier l'existence des référentiels
+            if ($referentielSnapshot->exists()) {
+                foreach ($referentielSnapshot->getValue() as $uid => $referentielData) {
+                    // Comparer une propriété unique du référentiel (ici libelleReferentiel) pour récupérer l'UID
+                    if (isset($referentielData['libelleReferentiel']) && $referentielData['libelleReferentiel'] === $libelleReferentiel) {
+                        return $uid; // Retourner l'UID correspondant
+                    }
                 }
             }
+        } catch (\Exception $e) {
+            // Loguer l'exception en cas de problème
+            \Log::error('Erreur lors de la récupération de l\'UID depuis Firebase:', ['exception' => $e->getMessage()]);
         }
-    } catch (\Exception $e) {
-        // Loguer l'exception en cas de problème
-        \Log::error('Erreur lors de la récupération de l\'UID depuis Firebase:', ['exception' => $e->getMessage()]);
-    }
 
-    return null; // UID non trouvé
-}
+        return null; // UID non trouvé
+    }
 
 
     // Mettre à jour une ressource dans Firebase
