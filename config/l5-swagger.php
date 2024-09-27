@@ -13,7 +13,6 @@ return [
                  * Route for accessing api documentation interface
                  */
                 'api' => 'api/documentation',
-                'asset_base_path' => 'https://gestion-promo-laravel.onrender.com/docs/asset/', // Ajoutez cette ligne
             ],
             'paths' => [
                 /*
@@ -96,7 +95,7 @@ return [
             /*
              * Edit to set the api's base path
              */
-            'base' => env('L5_SWAGGER_BASE_PATH', 'https://gestion-promo-laravel.onrender.com'),
+            'base' => env('L5_SWAGGER_BASE_PATH', null),
 
             /*
              * Edit to set path where swagger ui assets should be stored
