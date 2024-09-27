@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API de gestion de Gestion Promo",
+        "title": "API de gestion de Gestion Promos",
         "version": "1.0.0",
         "description": "API pour gérer les Promos School"
     },

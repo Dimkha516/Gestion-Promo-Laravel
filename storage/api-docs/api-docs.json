@@ -12,6 +12,11 @@
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "https://gestion-promo-laravel.onrender.com"
+        }
+    ],
     "paths": {
         "/api/v1/apprenants": {
             "post": {
