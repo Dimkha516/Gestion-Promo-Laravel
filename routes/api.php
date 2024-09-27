@@ -116,3 +116,15 @@ Route::prefix('v1')->group(function () {
     });
 
 });
+
+
+/**
+ * 
+ * 
+ * "servers": [
+        {
+            "url": "https://localhost:3000",
+            "description": "Serveur Local"
+        }
+    ],
+ */
