@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
@@ -22,21 +23,19 @@ class FirebaseInterfaceImplement implements FirebaseInterface
             throw new \Exception("Failed to decode Firebase credentials");
         }
 
-        // Nettoyage du JSON décodé
-        $decodedCredentials = trim($decodedCredentials);
 
         $credentialsArray = json_decode($decodedCredentials, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception("Failed to parse Firebase credentials JSON: " . json_last_error_msg());
         }
-    
 
-        // dd(base64_decode( config('services.firebase.credentials')));
+
+
         $factory = (new Factory)
             // ->withServiceAccount(storage_path(config('services.firebase.credentials')))
             ->withServiceAccount($credentialsArray)
-            ->withDatabaseUri(env('FIREBASE_DATABASE_URL'));
+            ->withDatabaseUri(config('services.firebase.database_url'));
         $this->firebase = $factory->createDatabase();
     }
 
