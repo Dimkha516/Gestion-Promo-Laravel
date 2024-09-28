@@ -1,11 +1,11 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API de gestion de Gestion Promos",
+        "title": "API de gestion de Gestion Promos\nPOUR UNE FACILITATION DES TESTS, L'AUTHENTIFICATION EST TEMPORAIREMENT DÉSACTIVÉE !",
         "version": "1.0.0",
-        "description": "API pour gérer les Promos School"
+        "description": "API Gestion-Promos"
     },
-    
+
     "paths": {
         "/api/v1/auth/login": {
             "post": {
@@ -106,6 +106,134 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": ["users"],
+                "summary": "Créer un nouvel utilisateur",
+                "description": "Endpoint pour créer un nouvel utilisateur avec les données spécifiées.",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "prenom": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "adresse": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "telephone": {
+                                        "type": "string",
+                                        "pattern": "^((77|76|75|70|78)\\d{3}\\d{2}\\d{2})|(33[8]\\d{2}\\d{2}\\d{2})$"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Admin",
+                                            "CM",
+                                            "Manager",
+                                            "Coach",
+                                            "Apprenant"
+                                        ]
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "maxLength": 255
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "minLength": 6
+                                    },
+                                    "photo": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Photo de profil à télécharger",
+                                        "maxLength": 1024
+                                    },
+                                    "statut": {
+                                        "type": "string",
+                                        "enum": ["actif", "bloqué"]
+                                    }
+                                },
+                                "required": [
+                                    "nom",
+                                    "prenom",
+                                    "adresse",
+                                    "telephone",
+                                    "role",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "nom": {
+                                            "type": "string"
+                                        },
+                                        "prenom": {
+                                            "type": "string"
+                                        },
+                                        "adresse": {
+                                            "type": "string"
+                                        },
+                                        "telephone": {
+                                            "type": "string"
+                                        },
+                                        "role": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "photo": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        },
+                                        "statut": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Données invalides",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
 
@@ -125,6 +253,400 @@
                         "description": "Non autorisé",
                         "content": {
                             "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["referentiels"],
+                "summary": "Créer un nouveau référentiel",
+                "description": "Endpoint pour créer un nouveau référentiel.",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codeReferentiel": {
+                                        "type": "string",
+                                        "description": "Code unique du référentiel"
+                                    },
+                                    "libelleReferentiel": {
+                                        "type": "string",
+                                        "description": "Libellé unique du référentiel"
+                                    },
+                                    "StatutReferentiel": {
+                                        "type": "string",
+                                        "description": "Statut du référentiel",
+                                        "enum": ["Actif", "Inactif", "Archiver"]
+                                    },
+                                    "photo": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Image du référentiel"
+                                    },
+                                    "competences": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "nom": {
+                                                    "type": "string",
+                                                    "description": "Nom de la compétence"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "description": "Type de compétence",
+                                                    "enum": [
+                                                        "Back-end",
+                                                        "Front-end"
+                                                    ]
+                                                }
+                                            },
+                                            "required": ["nom", "type"]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "codeReferentiel",
+                                    "libelleReferentiel",
+                                    "StatutReferentiel"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Référentiel créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "codeReferentiel": {
+                                            "type": "string"
+                                        },
+                                        "libelleReferentiel": {
+                                            "type": "string"
+                                        },
+                                        "StatutReferentiel": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Données invalides",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/referentiels/{id}": {
+            "patch": {
+                "tags": ["referentiels"],
+                "summary": "Modifier un référentiel (ajouter/supprimer des compétences ou des modules)",
+                "description": "Ce endpoint permet d'ajouter des compétences, d'ajouter des modules à une compétence, ou de supprimer un module d'une compétence existante.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID du référentiel à modifier"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "action": {
+                                        "type": "string",
+                                        "description": "L'action à effectuer",
+                                        "enum": [
+                                            "add_competence",
+                                            "add_modules",
+                                            "remove_module"
+                                        ]
+                                    },
+                                    "competence_nom": {
+                                        "type": "string",
+                                        "description": "Nom de la compétence (nécessaire pour ajouter ou supprimer un module)",
+                                        "nullable": true
+                                    },
+                                    "competence": {
+                                        "type": "array",
+                                        "description": "Détails de la compétence à ajouter (nécessaire pour l'action 'add_competence')",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "nom": {
+                                                    "type": "string",
+                                                    "description": "Nom de la compétence"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "description": "Description de la compétence",
+                                                    "nullable": true
+                                                },
+                                                "duree_acquisition": {
+                                                    "type": "integer",
+                                                    "description": "Durée d'acquisition de la compétence en heures",
+                                                    "nullable": true
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "description": "Type de la compétence",
+                                                    "enum": [
+                                                        "Back-end",
+                                                        "Front-end"
+                                                    ]
+                                                }
+                                            },
+                                            "required": ["nom", "type"]
+                                        },
+                                        "nullable": true
+                                    },
+                                    "modules": {
+                                        "type": "array",
+                                        "description": "Liste des modules à ajouter à la compétence (nécessaire pour l'action 'add_modules')",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "nom": {
+                                                    "type": "string",
+                                                    "description": "Nom du module"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "description": "Description du module",
+                                                    "nullable": true
+                                                },
+                                                "duree_acquisition": {
+                                                    "type": "integer",
+                                                    "description": "Durée d'acquisition du module en heures",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "required": ["nom"]
+                                        },
+                                        "nullable": true
+                                    },
+                                    "module_nom": {
+                                        "type": "string",
+                                        "description": "Nom du module à supprimer (nécessaire pour l'action 'remove_module')",
+                                        "nullable": true
+                                    }
+                                },
+                                "required": ["action"]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Modification du référentiel réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Compétence ajoutée avec succès"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Référentiel non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Referentiel not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Action invalide ou données manquantes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid action"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["referentiels"],
+                "summary": "Supprimer un référentiel (soft delete)",
+                "description": "Ce endpoint permet de supprimer un référentiel par soft delete (la ressource est marquée comme supprimée sans être réellement effacée de la base de données).",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID du référentiel à supprimer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Suppression du référentiel réussie (soft delete)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Referentiel supprimé avec succès"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Référentiel non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Referentiel not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur lors de la suppression",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la suppression du référentiel"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/referentiels/archive/referentiel": {
+            "get": {
+                "tags": ["referentiels"],
+                "summary": "Lister les référentiels supprimés (archivés)",
+                "description": "Ce endpoint permet de lister tous les référentiels qui ont été supprimés (ceux marqués avec le champ 'deleted_at').",
+                "parameters": [
+                    {
+                        "name": "statut",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["archived"]
+                        },
+                        "description": "Optionnel: Filtrer les référentiels par statut, ex: 'archived' pour les archivés"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des référentiels archivés récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "codeReferentiel": {
+                                                "type": "string"
+                                            },
+                                            "libelleReferentiel": {
+                                                "type": "string"
+                                            },
+                                            "StatutReferentiel": {
+                                                "type": "string"
+                                            },
+                                            "deleted_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Aucun référentiel archivé trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Archive Référentiel vide."
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

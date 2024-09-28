@@ -36,9 +36,9 @@ class UserController extends Controller
         $newUser = new User2($data);
 
         // Vérifier si l'utilisateur connecté a les permissions pour créer cet utilisateur
-        if (Gate::denies('create', $newUser)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        // if (Gate::denies('create', $newUser)) {
+        //     return response()->json(['message' => 'Unauthorized'], 403);
+        // }
 
         // Si les permissions sont accordées, créer l'utilisateur via le service
         $this->userService->createUser($data);

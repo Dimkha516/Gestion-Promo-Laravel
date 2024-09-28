@@ -66,16 +66,16 @@ class ReferentielController extends Controller
      */
     public function archivedList()
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+        // if (!auth()->check()) {
+        //     return response()->json(['message' => 'Unauthenticated.'], 401);
+        // }
 
-        // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        $currentUser = auth()->user();
+        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        // $currentUser = auth()->user();
 
-        if (!in_array($currentUser->role, ['Admin'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+        // if (!in_array($currentUser->role, ['Admin'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
 
         $archivedRef = $this->referentielService->listArchivedReferentiel();
         return response()->json($archivedRef);
@@ -93,16 +93,16 @@ class ReferentielController extends Controller
      */
     public function store(ReferentielStoreRequest $request)
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+        // if (!auth()->check()) {
+        //     return response()->json(['message' => 'Unauthenticated.'], 401);
+        // }
 
-        // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        $currentUser = auth()->user();
+        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        // $currentUser = auth()->user();
 
-        if (!in_array($currentUser->role, ['Admin'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+        // if (!in_array($currentUser->role, ['Admin'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
 
         $data = $request->validated();
 
@@ -147,16 +147,16 @@ class ReferentielController extends Controller
      */
     public function filterByCompetenceOrModule(Request $request, $uid)
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+        // if (!auth()->check()) {
+        //     return response()->json(['message' => 'Unauthenticated.'], 401);
+        // }
 
-        // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        $currentUser = auth()->user();
+        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        // $currentUser = auth()->user();
 
-        if (!in_array($currentUser->role, ['Admin'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+        // if (!in_array($currentUser->role, ['Admin'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
 
 
         // Récupérer le type de filtre (competence ou module) et la valeur du filtre
@@ -184,16 +184,16 @@ class ReferentielController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+        // if (!auth()->check()) {
+        //     return response()->json(['message' => 'Unauthenticated.'], 401);
+        // }
 
-        // Vérifie si l'utilisateur connecté a l'un des rôles requis
-        $currentUser = auth()->user();
+        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        // $currentUser = auth()->user();
 
-        if (!in_array($currentUser->role, ['Admin'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+        // if (!in_array($currentUser->role, ['Admin'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
 
 
         $data = $request->validate([
@@ -233,16 +233,16 @@ class ReferentielController extends Controller
      * )
      */
     public function deleteReferentiel($id)
-    {
-        // Vérifie si l'utilisateur est authentifié et a les droits requis
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
+    // // Vérifie si l'utilisateur est authentifié et a les droits requis
+    // if (!auth()->check()) {
+    //     return response()->json(['message' => 'Unauthenticated.'], 401);
+    // }
 
-        $currentUser = auth()->user();
-        if (!in_array($currentUser->role, ['Admin'])) {
-            return response()->json(['message' => 'Accès refusé.'], 403);
-        }
+    // $currentUser = auth()->user();
+    // if (!in_array($currentUser->role, ['Admin'])) {
+    //     return response()->json(['message' => 'Accès refusé.'], 403);
+    // }
+    {
 
         // Récupérer le référentiel par son ID
         $referentiel = $this->referentielService->findReferentiel($id);
