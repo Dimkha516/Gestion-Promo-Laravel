@@ -12,20 +12,35 @@ class FirebaseInterfaceImplement implements FirebaseInterface
 {
     protected $firebase;
 
+    // ---------------RUNNING ON LOCAL:
     public function __construct()
     {
-        $credentials = base64_decode(env('FIREBASE_CREDENTIALS'));
-        $tempFilePath = storage_path('app/firebase/temp_credentials.json');
-        file_put_contents($tempFilePath, $credentials);
+        $encodedCredentials = config('services.firebase.credentials');
+        $decodedCredentials = base64_decode($encodedCredentials);
 
+        if (!$decodedCredentials) {
+            throw new \Exception("Failed to decode Firebase credentials");
+        }
+
+        // Nettoyage du JSON décodé
+        $decodedCredentials = trim($decodedCredentials);
+
+        $credentialsArray = json_decode($decodedCredentials, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Failed to parse Firebase credentials JSON: " . json_last_error_msg());
+        }
+    
 
         // dd(base64_decode( config('services.firebase.credentials')));
         $factory = (new Factory)
             // ->withServiceAccount(storage_path(config('services.firebase.credentials')))
-            ->withServiceAccount($tempFilePath)
+            ->withServiceAccount($credentialsArray)
             ->withDatabaseUri(env('FIREBASE_DATABASE_URL'));
         $this->firebase = $factory->createDatabase();
     }
+
+
 
     public function uploadPhoto($file)
     {

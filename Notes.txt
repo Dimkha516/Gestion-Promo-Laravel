@@ -174,3 +174,5 @@ docker run -p 80:80 -p 9000:9000 nom_de_l'image
 listen' /etc/nginx/nginx.conf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/
 
 base64 storage/app/firebase/credentials.json
+
+base64 -w 0 storage/app/firebase/credentials.json > credentials_base64.txt

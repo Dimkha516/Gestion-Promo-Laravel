@@ -16,9 +16,29 @@ class FireBaseAuthService
     protected $firebaseAuth;
 
     public function __construct()
-    {
+    {   
+
+
+        $encodedCredentials = config('services.firebase.credentials');
+        $decodedCredentials = base64_decode($encodedCredentials);
+
+        if (!$decodedCredentials) {
+            throw new \Exception("Failed to decode Firebase credentials");
+        }
+
+        // Nettoyage du JSON décodé
+        $decodedCredentials = trim($decodedCredentials);
+
+        $credentialsArray = json_decode($decodedCredentials, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Failed to parse Firebase credentials JSON: " . json_last_error_msg());
+        }
+
+
         $firebase = (new Factory)
-            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+            // ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+            ->withServiceAccount($credentialsArray)
             ->withProjectId(env('FIREBASE_PROJECT_ID'));
 
         // On initialise FirebaseAuth via la Factory

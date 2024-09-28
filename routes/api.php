@@ -30,7 +30,7 @@ use Laravel\Passport\Passport;
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('api/documentation', '\L5Swagger\Http\Controllers\SwaggerController@api')->name('l5swagger.api');
+    // Route::get('api/documentation', '\L5Swagger\Http\Controllers\SwaggerController@api')->name('l5swagger.api');
 
     //----------------------------------------AUTHENTIFICATIONS:
     Route::prefix('auth')->group(function () {

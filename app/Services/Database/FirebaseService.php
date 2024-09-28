@@ -10,10 +10,26 @@ class FirebaseService implements DatabaseServiceInterface
     protected $auth;
 
 
-    public function __construct()
-    {
+    public function __construct()   
+    {   
+        $encodedCredentials = config('services.firebase.credentials');
+        $decodedCredentials = base64_decode($encodedCredentials);
+
+        if (!$decodedCredentials) {
+            throw new \Exception("Failed to decode Firebase credentials");
+        }
+
+        // Nettoyage du JSON décodé
+        $decodedCredentials = trim($decodedCredentials);
+
+        $credentialsArray = json_decode($decodedCredentials, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Failed to parse Firebase credentials JSON: " . json_last_error_msg());
+        }
         $firebase = (new Factory)
-            ->withServiceAccount(config('services.firebase.credentials'))
+            // ->withServiceAccount(config('services.firebase.credentials'))
+            ->withServiceAccount($credentialsArray)
             ->withDatabaseUri(config('services.firebase.database_url'));
         $this->auth = $firebase->createAuth();  // Utilisation de l'authentification Firebase
         $this->database = $firebase->createDatabase();
