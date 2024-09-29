@@ -61,24 +61,24 @@ Route::prefix('v1')->group(function () {
     Route::prefix('referentiels')->group(function () {
 
         //------------AJOUTER UN RÉFÉRENTIEL:
-        
+
         // Route::middleware('auth:api')->post("/", [ReferentielController::class, 'store']);
         Route::post("/", [ReferentielController::class, 'store']);
-        
-        
-        
+
+
+
         //------------LISTER LES RÉFÉRENTIELS AVEC POSSIBILITÉ DE FILTRE:
-        
+
         // Route::middleware('auth:api')->get('/', [ReferentielController::class, 'index']);
         Route::get("/", [ReferentielController::class, 'index']);
- 
-        
+
+
         // FILTRER SUR UN RÉFÉRENTIEL PAR COMPÉTENCE OU MODULE:
-        
+
         // Route::middleware('auth:api')->get('/{id}', [ReferentielController::class, 'filterByCompetenceOrModule']);
         Route::get("/{id}", [ReferentielController::class, 'filterByCompetenceOrModule']);
 
-        
+
         // ACTION D'AJOUT ET DE MODIFICATION SUR LES RÉFÉRENTIELS:
         // Route::middleware('auth:api')->patch("/{id}", [ReferentielController::class, "update"]);
         Route::patch("/{id}", [ReferentielController::class, 'update']);
@@ -106,9 +106,11 @@ Route::prefix('v1')->group(function () {
         // if (!in_array($currentUser->role, ['Admin'])) {
         //     return response()->json(['message' => 'Accès refusé.'], 403);
         // }
-        Route::middleware('auth:api')->post('/', [ApprenantController::class, 'store']);
+        // Route::middleware('auth:api')->post('/', [ApprenantController::class, 'store']);
+        Route::post("/", [ApprenantController::class, 'store']);
 
         Route::post('/import', [ApprenantController::class, 'importApprenants']);
+
     });
 
 
@@ -116,11 +118,16 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('promotions')->group(function () {
 
-        Route::middleware('auth:api')->get('/', [PromoController::class, 'index']);
+        // Route::middleware('auth:api')->get('/', [PromoController::class, 'index']);
+        Route::get("/", [PromoController::class, 'index']);
 
-        Route::middleware('auth:api')->post('/', [PromoController::class, 'store']);
 
-        Route::middleware('auth:api')->post('/{id}/referentiels', [PromoController::class, 'addReferentielToPromo']);
+        // Route::middleware('auth:api')->post('/', [PromoController::class, 'store']);
+        Route::post('/', [PromoController::class, 'store']);
+
+
+        // Route::middleware('auth:api')->post('/{id}/referentiels', [PromoController::class, 'addReferentielToPromo']);
+        Route::post('/{id}/referentiels', [PromoController::class, 'addReferentielToPromo']);
 
     });
 

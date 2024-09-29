@@ -651,6 +651,524 @@
                     }
                 }
             }
+        },
+        "/api/v1/apprenants": {
+            "post": {
+                "tags": ["apprenants"],
+                "summary": "Créer un nouvel apprenant",
+                "description": "Ce endpoint permet de créer un nouvel apprenant avec les informations spécifiées.",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "description": "Nom de l'apprenant",
+                                        "maxLength": 255
+                                    },
+                                    "prenom": {
+                                        "type": "string",
+                                        "description": "Prénom de l'apprenant",
+                                        "maxLength": 255
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "Email de l'apprenant",
+                                        "maxLength": 255
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "Mot de passe de l'apprenant",
+                                        "minLength": 6
+                                    },
+                                    "photo": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Photo de l'apprenant (optionnel)"
+                                    },
+                                    "statut": {
+                                        "type": "string",
+                                        "enum": ["actif", "inactif"],
+                                        "description": "Statut de l'apprenant (par défaut 'actif')"
+                                    },
+                                    "nom_tuteur": {
+                                        "type": "string",
+                                        "description": "Nom du tuteur"
+                                    },
+                                    "contact_tuteur": {
+                                        "type": "string",
+                                        "description": "Contact du tuteur"
+                                    },
+                                    "photocopie_cni": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Photocopie de la carte d'identité"
+                                    },
+                                    "diplome": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Diplôme de l'apprenant"
+                                    },
+                                    "visite_medicale": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Visite médicale"
+                                    },
+                                    "extrait_naissance": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Extrait de naissance"
+                                    },
+                                    "casier_judiciaire": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Casier judiciaire"
+                                    }
+                                },
+                                "required": [
+                                    "nom",
+                                    "prenom",
+                                    "email",
+                                    "password",
+                                    "nom_tuteur",
+                                    "contact_tuteur",
+                                    "photocopie_cni",
+                                    "diplome",
+                                    "visite_medicale",
+                                    "extrait_naissance",
+                                    "casier_judiciaire"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Apprenant créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user_uid": {
+                                            "type": "string",
+                                            "description": "UID de l'utilisateur"
+                                        },
+                                        "nom": {
+                                            "type": "string"
+                                        },
+                                        "prenom": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "statut": {
+                                            "type": "string"
+                                        },
+                                        "nom_tuteur": {
+                                            "type": "string"
+                                        },
+                                        "contact_tuteur": {
+                                            "type": "string"
+                                        },
+                                        "photocopie_cni": {
+                                            "type": "string"
+                                        },
+                                        "diplome": {
+                                            "type": "string"
+                                        },
+                                        "visite_medicale": {
+                                            "type": "string"
+                                        },
+                                        "extrait_naissance": {
+                                            "type": "string"
+                                        },
+                                        "casier_judiciaire": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Données invalides",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/promotions": {
+            "get": {
+                "tags": ["Promos"],
+                "summary": "Lister toutes les promotions",
+                "description": "Recupére la liste de toutes les promotions",
+                "responses": {
+                    "200": {
+                        "description": "Liste des Promos",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Promos"],
+                "summary": "Create a new promotion",
+                "description": "Creates a new promo with given details",
+                "operationId": "createPromo",
+                "requestBody": {
+                    "description": "Data for creating a new promo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string",
+                                        "example": "Promo 2024"
+                                    },
+                                    "date_debut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-01"
+                                    },
+                                    "date_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-06-01"
+                                    },
+                                    "duree": {
+                                        "type": "integer",
+                                        "example": 6
+                                    },
+                                    "etat": {
+                                        "type": "string",
+                                        "example": "Inactif",
+                                        "enum": ["Actif", "Inactif"]
+                                    }
+                                },
+                                "required": ["libelle", "date_debut"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Promo successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Promo created successfully"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "libelle": {
+                                                    "type": "string"
+                                                },
+                                                "date_debut": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "date_fin": {
+                                                    "type": "string",
+                                                    "format": "date"
+                                                },
+                                                "duree": {
+                                                    "type": "integer"
+                                                },
+                                                "etat": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Libelle already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le libellé existe déjà."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La date de fin doit être après la date de début."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/api/v1/promotions/": {
+                "post": {
+                    "tags": ["Promo"],
+                    "summary": "Ajouter nouvelle Promo",
+                    "description": "Creates a new promo with given details",
+                    "operationId": "createPromo",
+                    "requestBody": {
+                        "description": "Data for creating a new promo",
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "libelle": {
+                                            "type": "string",
+                                            "example": "Promo 2024"
+                                        },
+                                        "date_debut": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2024-01-01"
+                                        },
+                                        "date_fin": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2024-06-01"
+                                        },
+                                        "duree": {
+                                            "type": "integer",
+                                            "example": 6
+                                        },
+                                        "etat": {
+                                            "type": "string",
+                                            "example": "Inactif",
+                                            "enum": ["Actif", "Inactif"]
+                                        }
+                                    },
+                                    "required": ["libelle", "date_debut"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Promo successfully created",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string",
+                                                "example": "Promo created successfully"
+                                            },
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "libelle": {
+                                                        "type": "string"
+                                                    },
+                                                    "date_debut": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "date_fin": {
+                                                        "type": "string",
+                                                        "format": "date"
+                                                    },
+                                                    "duree": {
+                                                        "type": "integer"
+                                                    },
+                                                    "etat": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "422": {
+                            "description": "Libelle already exists",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string",
+                                                "example": "Le libellé existe déjà."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "400": {
+                            "description": "Invalid input data",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string",
+                                                "example": "La date de fin doit être après la date de début."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api/v1/promotions/{id}/referentiels": {
+            "post": {
+                "tags": ["Promos"],
+                "summary": "Add referentiel to a promo",
+                "description": "Associates a referentiel with a promo if the referentiel is active",
+                "operationId": "addReferentielToPromo",
+                "parameters": [
+                    {
+                        "name": "promoUid",
+                        "in": "path",
+                        "required": true,
+                        "description": "UID of the promo",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Referentiel UID to add to the promo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "referentielUid": {
+                                        "type": "string",
+                                        "example": "referentiel-12345"
+                                    }
+                                },
+                                "required": ["referentielUid"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Referentiel added to promo successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Referentiel added to promo successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Referentiel not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Referentiel not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Referentiel is inactive",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ce référentiel est inactif"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to add referentiel to promo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to add referentiel to promo"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
