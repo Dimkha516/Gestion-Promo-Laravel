@@ -817,9 +817,19 @@
         },
         "/api/v1/apprenants/apprenants": {
             "get": {
-                "summary": "Lister les apprenants de la promo actif",
-                "description": "Renvoie la liste des apprenants inscrits dans la promotion active avec leurs tuteurs et le libellé du référentiel.",
                 "tags": ["apprenants"],
+                "summary": "Liste des apprenants de la promo active avec possibilité de filtrer par référentiel",
+                "parameters": [
+                    {
+                        "name": "referentiel_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Filtrer les apprenants par l'identifiant du référentiel"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste des apprenants",
@@ -831,25 +841,19 @@
                                         "type": "object",
                                         "properties": {
                                             "apprenant": {
-                                                "type": "string",
-                                                "description": "Nom de l'apprenant"
+                                                "type": "string"
                                             },
                                             "nom_tuteur": {
-                                                "type": "string",
-                                                "description": "Nom complet du tuteur"
+                                                "type": "string"
                                             },
                                             "libelleReferentiel": {
-                                                "type": "string",
-                                                "description": "Libellé du référentiel"
+                                                "type": "string"
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "Aucune promotion active trouvée"
                     }
                 }
             }

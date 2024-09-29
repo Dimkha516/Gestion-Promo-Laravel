@@ -132,7 +132,43 @@ class ApprenantRepository
     //------------------LISTER LES APPRENANTS DE LA PROMO ACTIVE DEBUT:
 
 
-    public function findApprenantsInPromoActif()
+    // public function findApprenantsInPromoActif()
+    // {
+    //     // Récupérer la promo active
+    //     $promoActifData = $this->findPromoActif();
+    //     if (!$promoActifData) {
+    //         return null; // Aucun promo actif trouvé
+    //     }
+
+    //     $promoKey = $promoActifData['key'];
+
+    //     // Récupérer les apprenants inscrits dans la promo active
+    //     $apprenants = $this->firebase->getReference('promos/' . $promoKey . '/apprenants')->getValue();
+
+    //     if (!$apprenants) {
+    //         return []; // Aucun apprenant dans cette promo
+    //     }
+
+    //     $result = [];
+    //     foreach ($apprenants as $apprenantId => $apprenantData) {
+    //         // Récupérer les informations de l'apprenant
+    //         $apprenant = $this->findApprenantById($apprenantId);
+    //         if ($apprenant) {
+    //             // Récupérer le libellé du référentiel
+    //             $referentiel = $this->findReferentielById($apprenantData['referentiel_id']);
+
+    //             $result[] = [
+    //                 // 'apprenant' => $apprenant['nom'] . ' ' . $apprenant['prenom'],
+    //                 'nom' => $apprenant['nom_tuteur'], // Récupérer le nom_tuteur directement
+    //                 'libelleReferentiel' => $referentiel ? $referentiel['libelleReferentiel'] : 'Référentiel non trouvé'
+    //             ];
+    //         }
+    //     }
+
+    //     return $result;
+    // }
+
+    public function findApprenantsInPromoActif($referentielId = null)
     {
         // Récupérer la promo active
         $promoActifData = $this->findPromoActif();
@@ -151,6 +187,11 @@ class ApprenantRepository
 
         $result = [];
         foreach ($apprenants as $apprenantId => $apprenantData) {
+            // Appliquer le filtre si un referentiel_id est passé
+            if ($referentielId && $apprenantData['referentiel_id'] !== $referentielId) {
+                continue; // Sauter les apprenants qui ne sont pas dans le référentiel spécifié
+            }
+
             // Récupérer les informations de l'apprenant
             $apprenant = $this->findApprenantById($apprenantId);
             if ($apprenant) {
