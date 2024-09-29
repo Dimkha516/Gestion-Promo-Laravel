@@ -132,4 +132,48 @@ class PromoRepository
     }
 
 
+    //-----------------------CHANGER ETAT PROMO:
+    public function getPromoById($promoId)
+    {
+        // Récupérer une promo par son ID dans Firebase
+        return $this->firebase->getReference('promos/' . $promoId)->getValue();
+    }
+
+
+    public function getActivePromo()
+    {
+        // Récupérer la promo avec l'état 'Actif'
+        $promos = $this->firebase->getReference('promos')->orderByChild('etat')->equalTo('Actif')->getValue();
+        return !empty($promos) ? reset($promos) : null;
+    }
+
+    public function updatePromoEtat($promoId, $etat)
+    {
+        // Mise à jour de l'attribut 'etat' de la promo
+        return $this->firebase->getReference('promos/' . $promoId)->update(['etat' => $etat]);
+    }
+
+    public function hasReferentiel($promoId)
+    {
+        // Vérifie si une promo a un référentiel associé
+        $promo = $this->getPromoById($promoId);
+        return isset($promo['referentiels']);
+    }
+    //----------------------------------------------------------------------
+// Récupérer les référentiels d'une promo spécifique
+    public function getReferentielsByPromo(string $promoId)
+    {
+        $promoSnapshot = $this->firebase->getReference('promos/' . $promoId)
+            ->getSnapshot();
+
+        if (!$promoSnapshot->exists()) {
+            return null; // La promo n'existe pas
+        }
+
+        // Extraire les référentiels de la promo
+        $promoData = $promoSnapshot->getValue();
+
+        return isset($promoData['referentiels']) ? $promoData['referentiels'] : [];
+    }
+
 }

@@ -14,7 +14,8 @@ class PromoService
         $this->referentielRepository = $referentielRepository;
     }
 
-    public function getAllPromos(){
+    public function getAllPromos()
+    {
         return $this->promoRepository->getPromos();
     }
 
@@ -73,6 +74,56 @@ class PromoService
             return response()->json(['message' => 'Failed to add referentiel to promo'], 500);
         }
     }
+
+
+    public function updatePromoEtat($promoId, $newEtat)
+    {
+        // Récupérer la promo à modifier
+        $promo = $this->promoRepository->getPromoById($promoId);
+        if (!$promo) {
+            throw new \Exception("La promo n'existe pas.");
+        }
+
+        // Si la promo doit être activée, vérifiez les autres conditions
+        if ($newEtat === 'Actif') {
+            // Vérifiez s'il existe déjà une promo active
+            $activePromo = $this->promoRepository->getActivePromo();
+            if ($activePromo && $activePromo['id'] !== $promoId) {
+                throw new \Exception("Une seule promo peut être active.");
+            }
+
+            // Vérifiez si la promo a un référentiel
+            if (!$this->promoRepository->hasReferentiel($promoId)) {
+                throw new \Exception("Une promo sans référentiel ne peut pas être active.");
+            }
+        }
+
+        // Mettre à jour l'état de la promo
+        $this->promoRepository->updatePromoEtat($promoId, $newEtat);
+
+        return "L'état de la promo a été mis à jour avec succès.";
+    }
+
+    //--------------------------------------------------------------
+    public function getActivePromo()
+    {
+        $promo = $this->promoRepository->getActivePromo();
+
+        if (!$promo) {
+            throw new \Exception("Aucune promo active trouvée.");
+        }
+
+        return $promo;
+    }
+
+    //--------------------------------------------------------------
+
+    // Service pour obtenir les référentiels d'une promo spécifique
+    public function getReferentielsByPromo(string $promoId)
+    {
+        return $this->promoRepository->getReferentielsByPromo($promoId);
+    }
+
 
 
 }

@@ -103,4 +103,60 @@ class PromoController extends Controller
     }
 
 
+    public function updateEtat(Request $request, $promoId)
+    {
+        // if (!auth()->check()) {
+        //     return response()->json(['message' => 'Unauthenticated.'], 401);
+        // }
+
+        // // Vérifie si l'utilisateur connecté a l'un des rôles requis
+        // $currentUser = auth()->user();
+
+        // if (!in_array($currentUser->role, ['Manager'])) {
+        //     return response()->json(['message' => 'Accès refusé.'], 403);
+        // }
+
+        // Validation de la requête pour l'état
+        $validatedData = $request->validate([
+            'etat' => 'required|in:Actif,Inactif,Archive'
+        ]);
+
+        try {
+            // Appel du service pour mettre à jour l'état
+            $message = $this->promoService->updatePromoEtat($promoId, $validatedData['etat']);
+            return response()->json(['message' => $message], 200);
+        } catch (\Exception $e) {
+            // Gérer les exceptions et renvoyer un message d'erreur
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
+
+    public function showActivePromo()
+    {
+        try {
+            // Appel du service pour récupérer la promo active
+            $promo = $this->promoService->getActivePromo();
+            return response()->json(['promo' => $promo], 200);
+        } catch (\Exception $e) {
+            // Gérer les exceptions et renvoyer un message d'erreur
+            return response()->json(['error' => $e->getMessage()], 404);
+        }
+    }
+
+
+    // Endpoint pour lister les référentiels d'une promo
+    public function listReferentiels($promoId)
+    {
+        $referentiels = $this->promoService->getReferentielsByPromo($promoId);
+
+        if (is_null($referentiels)) {
+            return response()->json(['message' => 'Promo non trouvée'], 404);
+        }
+
+        return response()->json(['referentiels' => $referentiels], 200);
+    }
+
+
+
 }

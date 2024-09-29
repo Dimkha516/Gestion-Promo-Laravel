@@ -1169,6 +1169,114 @@
                     }
                 }
             }
+        },
+        "/api/v1/promotions/{id}/etat": {
+            "patch": {
+                "tags": ["Promos"],
+                "summary": "Modifier l'état d'une promotion",
+                "description": "Change l'état d'une promotion à 'Actif', 'Inactif' ou 'Archive'. Une seule promotion peut être active.",
+                "parameters": [
+                    {
+                        "name": "promoId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID de la promotion à modifier"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "etat": {
+                                    "type": "string",
+                                    "enum": ["Actif", "Inactif", "Archive"],
+                                    "description": "Nouveau statut de la promotion"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "État de la promotion modifié avec succès"
+                    },
+                    "400": {
+                        "description": "Erreur dans les paramètres de la requête"
+                    },
+                    "404": {
+                        "description": "Promotion non trouvée"
+                    },
+                    "409": {
+                        "description": "Une autre promotion est déjà active"
+                    }
+                }
+            }
+        },
+        "/api/v1/promotions/encours": {
+            "get": {
+                "tags": ["Promos"],
+                "summary": "Afficher la promotion active",
+                "description": "Renvoie la promotion dont l'état est 'Actif'.",
+                "responses": {
+                    "200": {
+                        "description": "Détails de la promotion active",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "promoId": { "type": "string" },
+                                "nom": { "type": "string" },
+                                "description": { "type": "string" },
+                                "etat": { "type": "string" }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucune promotion active trouvée"
+                    }
+                }
+            }
+        },
+        "/api/v1/promotions/{id}/referentiels": {
+            "get": {
+                "tags": ["Promos"],
+                "summary": "Lister les référentiels d'une promotion",
+                "description": "Renvoie la liste des référentiels associés à une promotion spécifique.",
+                "parameters": [
+                    {
+                        "name": "promoId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID de la promotion"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des référentiels",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "referentiels": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "nom": { "type": "string" },
+                                            "description": { "type": "string" }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Promotion non trouvée"
+                    }
+                }
+            }
         }
     },
     "components": {

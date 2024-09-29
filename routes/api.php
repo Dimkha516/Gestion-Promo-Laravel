@@ -129,7 +129,22 @@ Route::prefix('v1')->group(function () {
         // Route::middleware('auth:api')->post('/{id}/referentiels', [PromoController::class, 'addReferentielToPromo']);
         Route::post('/{id}/referentiels', [PromoController::class, 'addReferentielToPromo']);
 
+
+        //------------------------------------------NOT YET ON SWAGGER: 
+        // Route::middleware('auth:api')->patch('/{id}/etat', [PromoController::class, 'updateEtat']);
+        Route::patch('/{id}/etat', [PromoController::class, 'updateEtat']);
+
+        // Route::middleware('auth:api')->get('/encours', [PromoController::class, 'showActivePromo']);
+        Route::get('/encours', [PromoController::class, 'showActivePromo']);
+        
+        
+        // Route::middleware('auth:api')->get('/{id}/referentiels', [PromoController::class, 'listReferentiels']);
+        Route::get('/{id}/referentiels', [PromoController::class, 'listReferentiels']);
+    
+    
     });
+
+
 
 });
 
