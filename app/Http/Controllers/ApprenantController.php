@@ -97,7 +97,37 @@ class ApprenantController extends Controller
 
     }
 
+    //------------------INSCRIRE APPRENANT EXISTANT DANS LA PROMO ENCOURS DEBUT:
+    public function inscrireApprenantPromoActif(Request $request)
+    {
+        $validatedData = $request->validate([
+            'apprenant_id' => 'required|string',
+            'referentiel_id' => 'required|string'
+        ]);
 
+        $apprenantId = $validatedData['apprenant_id'];
+        $referentielId = $validatedData['referentiel_id'];
+
+        // Appel du service pour inscrire l'apprenant dans la promo active
+        $result = $this->apprenantService->inscrireApprenantPromoActif($apprenantId, $referentielId);
+
+        if ($result['status'] === 'success') {
+            return response()->json(['message' => 'Apprenant inscrit avec succès dans la promo active'], 200);
+        } else {
+            return response()->json(['message' => $result['message']], $result['statusCode']);
+        }
+    }
+
+    //------------------INSCRIRE APPRENANT EXISTANT DANS LA PROMO ENCOURS FIN:
+
+
+    public function listerApprenantsPromoActif()
+{
+    // Appel du service pour lister les apprenants de la promo active
+    $response = $this->apprenantService->listerApprenantsPromoActif();
+
+    return response()->json($response, $response['statusCode']);
+}
 
 
 

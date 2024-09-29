@@ -652,6 +652,7 @@
                 }
             }
         },
+
         "/api/v1/apprenants": {
             "post": {
                 "tags": ["apprenants"],
@@ -814,6 +815,85 @@
                 }
             }
         },
+        "/api/v1/apprenants/apprenants": {
+            "get": {
+                "summary": "Lister les apprenants de la promo actif",
+                "description": "Renvoie la liste des apprenants inscrits dans la promotion active avec leurs tuteurs et le libellé du référentiel.",
+                "tags": ["apprenants"],
+                "responses": {
+                    "200": {
+                        "description": "Liste des apprenants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "apprenant": {
+                                                "type": "string",
+                                                "description": "Nom de l'apprenant"
+                                            },
+                                            "nom_tuteur": {
+                                                "type": "string",
+                                                "description": "Nom complet du tuteur"
+                                            },
+                                            "libelleReferentiel": {
+                                                "type": "string",
+                                                "description": "Libellé du référentiel"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aucune promotion active trouvée"
+                    }
+                }
+            }
+        },
+        "/api/v1/apprenants/enrolle": {
+            "post": {
+                "tags": ["apprenants"],
+                "summary": "Inscrire un apprenant à la promotion active",
+                "description": "Inscription d'un apprenant dans la promo active en sélectionnant un référentiel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "apprenant_id": {
+                                        "type": "string",
+                                        "description": "ID de l'apprenant"
+                                    },
+                                    "referentiel_id": {
+                                        "type": "string",
+                                        "description": "ID du référentiel"
+                                    }
+                                },
+                                "required": ["apprenant_id", "referentiel_id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Apprenant inscrit avec succès"
+                    },
+                    "404": {
+                        "description": "Apprenant, promotion ou référentiel non trouvé"
+                    },
+                    "409": {
+                        "description": "Apprenant déjà inscrit dans cette promotion"
+                    }
+                }
+            }
+        },
+
         "/api/v1/promotions": {
             "get": {
                 "tags": ["Promos"],

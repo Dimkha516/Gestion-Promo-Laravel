@@ -111,6 +111,10 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/import', [ApprenantController::class, 'importApprenants']);
 
+
+        Route::post('/enrolle', [ApprenantController::class, 'inscrireApprenantPromoActif']);
+
+        Route::get('/apprenants', [ApprenantController::class, 'listerApprenantsPromoActif']);
     });
 
 
@@ -136,12 +140,12 @@ Route::prefix('v1')->group(function () {
 
         // Route::middleware('auth:api')->get('/encours', [PromoController::class, 'showActivePromo']);
         Route::get('/encours', [PromoController::class, 'showActivePromo']);
-        
-        
+
+
         // Route::middleware('auth:api')->get('/{id}/referentiels', [PromoController::class, 'listReferentiels']);
         Route::get('/{id}/referentiels', [PromoController::class, 'listReferentiels']);
-    
-    
+
+
     });
 
 

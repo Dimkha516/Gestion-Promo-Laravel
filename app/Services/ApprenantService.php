@@ -82,8 +82,8 @@ class ApprenantService
 
     // Méthode d'importation des apprenants depuis un fichier Excel
     public function importApprenants($file)
-    {   
-        
+    {
+
         try {
             // Utilisation de l'importateur pour lire les données
             Excel::import(new ApprenantImport($this->apprenantRepository), $file);
@@ -136,5 +136,62 @@ class ApprenantService
     {
         // Logic to send data to Firebase
     }
+
+
+    //------------------INSCRIRE APPRENANT EXISTANT DANS LA PROMO ENCOURS DEBUT:
+    public function inscrireApprenantPromoActif($apprenantId, $referentielId)
+    {
+        // Vérifier si l'apprenant existe
+        $apprenant = $this->apprenantRepository->findApprenantById($apprenantId);
+        if (!$apprenant) {
+            return ['status' => 'error', 'message' => "L'apprenant n'existe pas.", 'statusCode' => 404];
+        }
+
+        // Récupérer la promo active
+        $promoActifData = $this->apprenantRepository->findPromoActif();
+        if (!$promoActifData) {
+            return ['status' => 'error', 'message' => "Aucune promotion active trouvée.", 'statusCode' => 404];
+        }
+
+        // Extraire la promotion et sa clé
+        $promoActif = $promoActifData['promo'];
+        $promoKey = $promoActifData['key'];
+
+        // Vérifier si le référentiel existe
+        $referentiel = $this->apprenantRepository->findReferentielById($referentielId);
+        if (!$referentiel) {
+            return ['status' => 'error', 'message' => "Le référentiel n'existe pas.", 'statusCode' => 404];
+        }
+
+        // Vérifier si l'apprenant est déjà inscrit dans cette promo
+        $isAlreadyEnrolled = $this->apprenantRepository->isApprenantInPromo($apprenantId, $promoKey);
+        if ($isAlreadyEnrolled) {
+            return ['status' => 'error', 'message' => "L'apprenant est déjà inscrit dans cette promotion.", 'statusCode' => 409];
+        }
+
+        // Inscrire l'apprenant à la promotion et au référentiel
+        $this->apprenantRepository->enrollApprenantInPromo($apprenantId, $promoKey, $referentielId);
+
+        return ['status' => 'success', 'message' => 'Apprenant inscrit avec succès.', 'statusCode' => 200];
+    }
+
+    //------------------INSCRIRE APPRENANT EXISTANT DANS LA PROMO ENCOURS FIN:
+
+
+    public function listerApprenantsPromoActif()
+{
+    // Appel au repository pour obtenir les apprenants et leurs détails
+    $apprenants = $this->apprenantRepository->findApprenantsInPromoActif();
+
+    if (is_null($apprenants)) {
+        return ['status' => 'error', 'message' => "Aucune promotion active trouvée", 'statusCode' => 404];
+    }
+
+    if (empty($apprenants)) {
+        return ['status' => 'success', 'message' => 'Aucun apprenant trouvé dans la promotion active', 'statusCode' => 200];
+    }
+
+    return ['status' => 'success', 'data' => $apprenants, 'statusCode' => 200];
+}
 
 }
